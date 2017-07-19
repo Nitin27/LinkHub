@@ -66,14 +66,13 @@ public class HomeController {
         return modelAndView;
     }
 
-
-
-
-
-
     @RequestMapping("/dashboard")
-    String fetchController(Model model, HttpSession session){
-        return "dashboard";
+    ModelAndView fetchController(Model model, HttpSession session){
+        String userName=(String)session.getAttribute("userName");
+        UserSessionDto user=iUserSevice.getUserDetails(userName);
+        ModelAndView modelAndView=new ModelAndView("dashboard");
+        modelAndView.addObject("user",user);
+        return modelAndView;
     }
 
     @RequestMapping("/logoutToHome")

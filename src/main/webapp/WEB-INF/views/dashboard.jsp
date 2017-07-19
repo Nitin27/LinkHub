@@ -63,13 +63,13 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <i class="glyphicon glyphicon-comment"
+                    <i class="glyphicon glyphicon-comment" id="addTopic"
                        style="display:inline-block;padding-top: 16px;font-size: 20px;color:#FFF"></i>
                     <i class="glyphicon glyphicon-envelope"
                        style="display:inline-block;padding-top: 16px;font-size: 20px;color:#FFF;margin-left:2px;"></i>
-                    <i class="glyphicon glyphicon-link"
+                    <i class="glyphicon glyphicon-link" id="addLink"
                        style="display:inline-block;padding-top: 16px;font-size: 20px;color:#FFF;margin-left:2px;"></i>
-                    <i class="glyphicon glyphicon-file"
+                    <i class="glyphicon glyphicon-file" id="addDocument"
                        style="display:inline-block;padding-top: 16px;font-size: 20px;color:#FFF;margin-left:2px;"></i>
                 </div>
 
@@ -78,7 +78,7 @@
                     <div class="dropdown" style="display:inline-block;padding-top: 12px;font-size: 20px;">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-user"></span>
-                            Tutorials
+                            ${user.firstName}
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
@@ -121,7 +121,12 @@
                         <div class="col-md-10 col-lg-10">
                             <div class="row">
                                 <div class="col-md-12">
-
+                                    <h3>${user.firstName}&nbsp;${user.lastName} </h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @${user.userName}
                                 </div>
                             </div>
                         </div>
@@ -139,7 +144,7 @@
                     <div class="row"
                          style="background-color: lightgrey ;border-radius: 10px 10px 0px 0px;padding:4px;border-bottom:1px solid black">
                         <div class="col-md-12">
-                            <strong>Recent shares</strong>
+                            <strong>Subscriptions</strong>
                         </div>
                     </div>
                     <div class="row" style="padding:0; margin:14px 0px;">
@@ -277,39 +282,214 @@
 
         <!--START OF COLUMN 2  -->
         <div class="col-md-5 col-lg-5" style="padding:20px;">
-            <div class="row" style="padding:10px">
+            <%--BEGINNING OF ADD TOPIC--%>
+            <div class="row" style="padding:10px" id="topicPopup">
                 <div class="col-md-12 col-lg-12" style="border:1px solid black; border-radius: 10px 10px 0px 0px">
                     <div class="row"
                          style="background-color: lightgrey ;border-radius: 10px 10px 0px 0px;padding:4px;border-bottom:1px solid black">
                         <div class="col-md-12 col-lg-12">
-                            <strong>Login</strong>
+                            <strong>Create Topic</strong>
                         </div>
                     </div>
                     <div class="row">
 
 
+                        <div class="col-md-12 col-lg-12" style="padding: 6px">
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4">
+                                    <label>Name*</label>
+                                </div>
+                                <div class="col-md-8 col-lg-8">
+                                    <input type="text" style="width:100%" id="topicName"
+                                           required="required"/>
+                                    <div id="txtUserTopicError"></div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4">
+                                    <label>Visibility*</label>
+                                </div>
+                                <div class="col-md-8 col-lg-8">
+                                    <select id="topicVisibility">
+                                        <option value="0">Public</option>
+                                        <option value="1">Private</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4"
+                                     style="text-align: center; text-decoration: underline">
+
+                                </div>
+                                <div class="col-md-4 col-lg-4"
+                                     style="text-align: center; text-decoration: underline">
+                                    <button id="topicSaveBtn" type="button"
+                                            style="width:100%;border-radius: 7px; border:1px solid black">
+                                        SHARE
+                                    </button>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <button id="topicCancelBtn" type="button"
+                                            style="width:100%;border-radius: 7px; border:1px solid black">
+                                        CANCEL
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
 
                     </div>
                 </div>
             </div>
-            <div class="row" style="padding:10px">
+            <%--END OF ADD TOPIC--%>
+
+            <%--BEGINNING OF LINK RESOURCE--%>
+            <div class="row" style="padding:10px" id="linkPopup">
                 <div class="col-md-12 col-lg-12" style="border:1px solid black; border-radius: 10px 10px 0px 0px">
                     <div class="row"
                          style="background-color: lightgrey ;border-radius: 10px 10px 0px 0px;padding:4px;border-bottom:1px solid black">
                         <div class="col-md-12 col-lg-12">
-                            <strong>Register</strong>
+                            <strong>Share Link</strong>
                         </div>
                     </div>
                     <div class="row">
 
 
+                        <div class="col-md-12 col-lg-12" style="padding: 6px">
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4">
+                                    <label>Link*</label>
+                                </div>
+                                <div class="col-md-8 col-lg-8">
+                                    <input type="text" style="width:100%" id="linkName"
+                                           required="required"/>
+                                    <div id="txtUserLinkError"></div>
+                                </div>
+                            </div>
 
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4">
+                                    <label>Description*</label>
+                                </div>
+                                <div class="col-md-8 col-lg-8">
+                                    <textarea id="linkDescription" style="padding:2px;width: 100%"></textarea>
+
+                                </div>
+                            </div>
+
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4">
+                                    <label>Topic*</label>
+                                </div>
+                                <div class="col-md-8 col-lg-8">
+                                    <select id="subscribedTopicsForLink">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4"
+                                     style="text-align: center; text-decoration: underline">
+
+                                </div>
+                                <div class="col-md-4 col-lg-4"
+                                     style="text-align: center; text-decoration: underline">
+                                    <button id=linkSaveBtn" type="button"
+                                            style="width:100%;border-radius: 7px; border:1px solid black">
+                                        SHARE
+                                    </button>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <button id="linkCancelBtn" type="button"
+                                            style="width:100%;border-radius: 7px; border:1px solid black">
+                                        CANCEL
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
 
                     </div>
                 </div>
             </div>
+            <%--END OF ADD LINK RESOURCE--%>
+
+
+            <%--BEGINNING OF DOCUMENT RESOURCE--%>
+            <div class="row" style="padding:10px" id="documentPopup">
+                <div class="col-md-12 col-lg-12" style="border:1px solid black; border-radius: 10px 10px 0px 0px">
+                    <div class="row"
+                         style="background-color: lightgrey ;border-radius: 10px 10px 0px 0px;padding:4px;border-bottom:1px solid black">
+                        <div class="col-md-12 col-lg-12">
+                            <strong>Share Document</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+
+
+                        <div class="col-md-12 col-lg-12" style="padding: 6px">
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4">
+                                    <label>Document*</label>
+                                </div>
+                                <div class="col-md-8 col-lg-8">
+                                    <input type="file" style="width:100%" id="documentName"
+                                           required="required"/>
+                                </div>
+                            </div>
+
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4">
+                                    <label>Description*</label>
+                                </div>
+                                <div class="col-md-8 col-lg-8">
+                                    <textarea id="documentDescription" style="padding:2px;width: 100%"></textarea>
+
+                                </div>
+                            </div>
+
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4">
+                                    <label>Topic*</label>
+                                </div>
+                                <div class="col-md-8 col-lg-8">
+                                    <select id="subscribedTopicsForDocument">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="padding:2px">
+                                <div class="col-md-4 col-lg-4"
+                                     style="text-align: center; text-decoration: underline">
+
+                                </div>
+                                <div class="col-md-4 col-lg-4"
+                                     style="text-align: center; text-decoration: underline">
+                                    <button id=documentSaveBtn" type="button"
+                                            style="width:100%;border-radius: 7px; border:1px solid black">
+                                        SHARE
+                                    </button>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <button id="documentCancelBtn" type="button"
+                                            style="width:100%;border-radius: 7px; border:1px solid black">
+                                        CANCEL
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <%--END OF ADD DOCUMENT RESOURCE--%>
+
+
         </div>
         <!--END OF COLUMN 2  -->
 
@@ -317,16 +497,32 @@
 </div>
 <script>
     $(document).ready(function () {
-        $.ajax({
-            url: "/dashboard/getUserDetails",
-            type: 'GET',
-            data: {"userName": "${sessionScope.get("userName")}"},
-            quietMillis: 2000,
-            success: function (res) {
+        $("#topicPopup").hide();
+        $("#linkPopup").hide();
+        $("#documentPopup").hide();
 
-            }
+        $("#addTopic").on('click', function () {
+            $("#topicPopup").show();
         });
-    })
+        $("#topicCancelBtn").on('click', function () {
+            $("#topicPopup").hide();
+        });
+
+        $("#addLink").on('click', function () {
+            $("#linkPopup").show();
+        });
+        $("#linkCancelBtn").on('click', function () {
+            $("#linkPopup").hide();
+        });
+
+        $("#addDocument").on('click', function () {
+            $("#documentPopup").show();
+        });
+        $("#documentCancelBtn").on('click', function () {
+            $("#documentPopup").hide();
+        });
+
+    });
 </script>
 </body>
 </html>
