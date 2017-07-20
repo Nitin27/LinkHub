@@ -7,4 +7,5 @@ import org.bootcamp.ttn.enums.Visibility;
  */
 public interface ITopicDao {
     Boolean addTopic(String topicName, Visibility topicVisibility,String userName);
+    Boolean checkUniqueTopicName(String topicName,String userName);
 }

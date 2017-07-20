@@ -500,6 +500,7 @@
         $("#topicPopup").hide();
         $("#linkPopup").hide();
         $("#documentPopup").hide();
+        $("#topicSaveBtn").prop('disabled',true);
 
         $("#addTopic").on('click', function () {
             $("#topicPopup").show();
@@ -537,6 +538,35 @@
                     console.log(res);
                 }
             });
+        });
+
+
+        $("#topicName").keyup(function () {
+            if ($(this).val()===""){
+                $("#txtUserTopicError").css("color", "red").html("Topic should not be blank ");
+                $("#loginBtn").prop('disabled', true);
+            }else {
+                $.ajax({
+                    url: "/dashboard/checkUniqueTopicName",
+                    type: 'GET',
+                    data: {"topicName": $("#topicName").val()},
+                    quietMillis: 2000,
+                    success: function (res) {
+                        //                    data=res.toString();
+                        if (res === "false") {
+                            $("#txtUserTopicError").css("color", "green").html("Proceed forward");
+                            $("#topicSaveBtn").prop('disabled', false);
+                        } else {
+                            $("#txtUserTopicError").css("color", "red").html("This topic is already created by you. ");
+                            $("#loginBtn").prop('disabled', true);
+                        }
+                        //alert(res);
+                    },
+                    error:function (res) {
+                        console.log(res);
+                    }
+                });
+            }
         });
 
     });

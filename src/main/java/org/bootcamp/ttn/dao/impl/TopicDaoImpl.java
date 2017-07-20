@@ -19,6 +19,7 @@ import java.util.Date;
 public class TopicDaoImpl implements ITopicDao {
     @Autowired
     SessionFactory sessionFactory;
+
     @Override
     public Boolean addTopic(String topicName, Visibility topicVisibility, String userName) {
         try {
@@ -37,8 +38,22 @@ public class TopicDaoImpl implements ITopicDao {
             session.save(topic);
             session.saveOrUpdate(user);
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public Boolean checkUniqueTopicName(String topicName, String userName) {
+        Session session = sessionFactory.getCurrentSession();
+        @SuppressWarnings("JpaQlInspection") String hql = "FROM User u INNER JOIN FETCH u.topics t WHERE u.userName = :userName AND t.topicName=:topicName";
+        Query query=session.createQuery(hql);
+        query.setParameter("userName",userName);
+        query.setParameter("topicName",topicName);
+        Object o=query.uniqueResult();
+        if (o==null)
+            return false;
+        else
+            return true;
     }
 }

@@ -24,4 +24,9 @@ public class TopicServiceImpl implements ITopicService {
             topicVisibility=Visibility.PRIVATE;
         return topicDao.addTopic(topicName,topicVisibility,userName);
     }
+
+    @Override
+    public Boolean isTopicNamePresent(String topicName, String userName) {
+        return topicDao.checkUniqueTopicName(topicName,userName);
+    }
 }

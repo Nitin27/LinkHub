@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 
 public interface ITopicService {
     Boolean addTopic(String topicName,String visibility,String userName);
+    Boolean isTopicNamePresent(String topicName,String userName);
 }

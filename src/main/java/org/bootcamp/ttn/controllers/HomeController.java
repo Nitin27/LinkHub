@@ -1,6 +1,7 @@
 package org.bootcamp.ttn.controllers;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.regexp.internal.RE;
 import org.bootcamp.ttn.dto.UserLoginDto;
 import org.bootcamp.ttn.dto.UserRegisterDto;
 import org.bootcamp.ttn.dto.UserSessionDto;
@@ -103,6 +104,12 @@ public class HomeController {
             return "TOPIC ADDITION FAILED TRY SOMETHING ELSE";
     }
 
+    @RequestMapping("/dashboard/checkUniqueTopicName")
+    @ResponseBody
+    public String checkUniqueUserTopicName(@RequestParam("topicName") String topicName, HttpSession session) {
+        Boolean check = iTopicService.isTopicNamePresent(topicName, (String) session.getAttribute("userName"));
+        return check + "";
+    }
 
 //  AJAX CONTROLLERS
 
