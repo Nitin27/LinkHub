@@ -85,15 +85,6 @@ public class HomeController {
         return modelAndView;
     }
 
-    @RequestMapping("/dashboard/getUserDetails")
-    @ResponseBody
-    String fetchUserDetailsForDashboard(@RequestParam("userName") String userName) {
-        UserSessionDto user = iUserSevice.getUserDetails(userName);
-
-        Gson gson = new Gson();
-        gson.toJson(user);
-        return "HELLO user";
-    }
 
     @RequestMapping("/dashboard/addTopic")
     @ResponseBody

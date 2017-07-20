@@ -21,9 +21,11 @@ public class TopicDaoImpl implements ITopicDao {
     SessionFactory sessionFactory;
 
     @Override
-    public Boolean addTopic(String topicName, Visibility topicVisibility, String userName) {
+    public Integer addTopic(String topicName, Visibility topicVisibility, String userName) {
+        Integer topicId;
         try {
             Session session = sessionFactory.getCurrentSession();
+
             @SuppressWarnings("JpaQlInspection") String hql = "FROM User WHERE userName = :userName";
             Query query = session.createQuery(hql);
             query.setParameter("userName", userName);
@@ -35,11 +37,11 @@ public class TopicDaoImpl implements ITopicDao {
             topic.setDateCreated(new Date());
             topic.setDateUpdated(new Date());
             user.getTopics().add(topic);
-            session.save(topic);
+            topicId=(Integer) session.save(topic);
             session.saveOrUpdate(user);
-            return true;
+            return topicId;
         } catch (Exception e) {
-            return false;
+            return 0;
         }
     }
 
