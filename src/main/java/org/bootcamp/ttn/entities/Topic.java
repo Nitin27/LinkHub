@@ -1,6 +1,7 @@
 package org.bootcamp.ttn.entities;
 
 import org.bootcamp.ttn.enums.Seriousness;
+import org.bootcamp.ttn.enums.Visibility;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class Topic {
     private Date dateCreated;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateUpdated;
-    private Seriousness seriousness;
+    private Visibility visibility;
     @OneToMany(mappedBy = "topic")
     private Collection<Subscription> subscriptions = new ArrayList();
     @OneToMany(mappedBy = "topic")
@@ -67,11 +68,27 @@ public class Topic {
         this.user = user;
     }
 
-    public Seriousness getSeriousness() {
-        return seriousness;
+    public Visibility getVisibility() {
+        return visibility;
     }
 
-    public void setSeriousness(Seriousness seriousness) {
-        this.seriousness = seriousness;
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
+    }
+
+    public Collection<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Collection<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    public Collection<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(Collection<Resource> resources) {
+        this.resources = resources;
     }
 }

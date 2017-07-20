@@ -209,6 +209,11 @@
                         <div class="row">
                             <div class="col-md-12 col-lg-12" style="padding: 6px">
                                 <div class="row" style="padding:2px">
+                                    <div class="col-md-12">
+                                        ${errorLogin}
+                                    </div>
+                                </div>
+                                <div class="row" style="padding:2px">
                                     <div class="col-md-4 col-lg-4">
                                         <form:label path="txtUserName" id="txtUserName">Email/Username*</form:label>
                                     </div>

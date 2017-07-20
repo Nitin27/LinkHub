@@ -522,6 +522,23 @@
             $("#documentPopup").hide();
         });
 
+        $("#topicSaveBtn").on('click',function () {
+            alert("Hello")
+            $.ajax({
+                url: "/dashboard/addTopic",
+                type: 'GET',
+                data: {topicName: $("#topicName").val(),visibility:$("#topicVisibility option:selected").val()},
+                success: function (res) {
+                    alert(res);
+                    $("#topicName").val("");
+                    $("#topicPopup").hide();
+                },
+                error:function (res) {
+                    console.log(res);
+                }
+            });
+        });
+
     });
 </script>
 </body>
