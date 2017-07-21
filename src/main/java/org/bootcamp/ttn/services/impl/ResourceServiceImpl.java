@@ -21,10 +21,10 @@ public class ResourceServiceImpl implements IResourceService {
     IUserService userService;
 
     @Override
-    public Boolean addLink(String linkName, String linkDescription, Integer topicId,String userName) {
-        Topic topic=topicService.getTopicDetails(topicId);
-        User user=userService.getUserId(userName);
-        Boolean check=linkResourceService.addLinkResource(topic,linkName,linkDescription,user);
+    public Boolean addLink(String linkName, String linkDescription, Integer topicId, String userName) {
+        Topic topic = topicService.getTopicDetails(topicId);
+        User user = userService.getUserId(userName);
+        Boolean check = linkResourceService.addLinkResource(topic, linkName, linkDescription, user);
         return true;
     }
 }

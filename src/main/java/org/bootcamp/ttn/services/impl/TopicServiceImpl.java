@@ -23,23 +23,23 @@ public class TopicServiceImpl implements ITopicService {
     @Override
     public Boolean addTopic(String topicName, String visibility, String userName) {
         Visibility topicVisibility;
-        if(visibility.equals("0"))
-            topicVisibility=Visibility.PUBLIC;
+        if (visibility.equals("0"))
+            topicVisibility = Visibility.PUBLIC;
         else
-            topicVisibility=Visibility.PRIVATE;
+            topicVisibility = Visibility.PRIVATE;
 
-        Integer topicId = topicDao.addTopic(topicName,topicVisibility,userName);
-        if (topicId==0)
+        Integer topicId = topicDao.addTopic(topicName, topicVisibility, userName);
+        if (topicId == 0)
             return false;
-        else{
-            subscriptionService.autoSubscribeTopicCreator(topicId,userName);
+        else {
+            subscriptionService.autoSubscribeTopicCreator(topicId, userName);
             return true;
         }
     }
 
     @Override
     public Boolean isTopicNamePresent(String topicName, String userName) {
-        return topicDao.checkUniqueTopicName(topicName,userName);
+        return topicDao.checkUniqueTopicName(topicName, userName);
     }
 
 

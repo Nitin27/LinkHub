@@ -5,7 +5,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "resourceId")
-public class DocumentResource extends Resource{
+public class DocumentResource extends Resource {
     private String filePath;
 
     public String getFilePath() {

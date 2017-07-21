@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 public class ResourceRating {
-//    @EmbeddedId
+    //    @EmbeddedId
 //    private ResourceRating_Id resourceRatingId;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

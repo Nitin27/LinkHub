@@ -62,7 +62,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User getUserId(String userName) {
-        User user=userDao.getUserDetails(userName);
+        User user = userDao.getUserDetails(userName);
         return user;
     }
 }

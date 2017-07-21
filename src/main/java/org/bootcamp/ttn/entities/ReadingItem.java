@@ -7,13 +7,9 @@ public class ReadingItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String readingItemId;
-//    @EmbeddedId
-//    private ReadingItem_Id readingItem_id;
     @OneToOne
-    //@MapsId("resource")
     private Resource resource;
     @OneToOne
-    //@MapsId("user")
     private User user;
     private Boolean isRead;
 

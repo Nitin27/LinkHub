@@ -5,7 +5,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "resourceId")
-public class LinkResource extends Resource{
+public class LinkResource extends Resource {
     private String url;
 
     public String getUrl() {

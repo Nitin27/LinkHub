@@ -22,9 +22,9 @@ public class LinkResourceDaoImpl implements ILinkResourceDao {
     SessionFactory sessionFactory;
 
     @Override
-    public Boolean addLink(Topic topic, String linkName, String linkDescription,User user) {
-        Session session=sessionFactory.getCurrentSession();
-        LinkResource linkResource=new LinkResource();
+    public Boolean addLink(Topic topic, String linkName, String linkDescription, User user) {
+        Session session = sessionFactory.getCurrentSession();
+        LinkResource linkResource = new LinkResource();
         linkResource.setUrl(linkName);
         linkResource.setDateCreated(new Date());
         linkResource.setDateUpdated(new Date());

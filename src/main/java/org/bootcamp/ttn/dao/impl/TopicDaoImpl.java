@@ -12,8 +12,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 
 @Transactional
@@ -39,7 +37,7 @@ public class TopicDaoImpl implements ITopicDao {
             topic.setDateCreated(new Date());
             topic.setDateUpdated(new Date());
             user.getTopics().add(topic);
-            topicId=(Integer) session.save(topic);
+            topicId = (Integer) session.save(topic);
             session.saveOrUpdate(user);
             return topicId;
         } catch (Exception e) {
@@ -51,12 +49,12 @@ public class TopicDaoImpl implements ITopicDao {
     public Boolean checkUniqueTopicName(String topicName, String userName) {
         Session session = sessionFactory.getCurrentSession();
         @SuppressWarnings("JpaQlInspection") String hql = "FROM User u INNER JOIN FETCH u.topics t WHERE u.userName = :userName AND t.topicName=:topicName";
-        Query query=session.createQuery(hql);
-        query.setParameter("userName",userName);
-        query.setParameter("topicName",topicName);
-        Object o=query.uniqueResult();
+        Query query = session.createQuery(hql);
+        query.setParameter("userName", userName);
+        query.setParameter("topicName", topicName);
+        Object o = query.uniqueResult();
         System.out.println(o);
-        if (o==null)
+        if (o == null)
             return false;
         else
             return true;
@@ -65,8 +63,8 @@ public class TopicDaoImpl implements ITopicDao {
 
     @Override
     public Topic getTopicDetails(Integer id) {
-        Session session=sessionFactory.getCurrentSession();
-        Topic topic=(Topic)session.get(Topic.class,id);
+        Session session = sessionFactory.getCurrentSession();
+        Topic topic = (Topic) session.get(Topic.class, id);
         return topic;
     }
 }

@@ -1,6 +1,5 @@
 package org.bootcamp.ttn.entities;
 
-import org.bootcamp.ttn.enums.Seriousness;
 import org.bootcamp.ttn.enums.Visibility;
 
 import javax.persistence.*;

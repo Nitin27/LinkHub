@@ -3,13 +3,10 @@ package org.bootcamp.ttn.dao.impl;
 import org.bootcamp.ttn.dao.IUserDao;
 import org.bootcamp.ttn.dto.UserLoginDto;
 import org.bootcamp.ttn.dto.UserRegisterDto;
-import org.bootcamp.ttn.dto.UserSessionDto;
 import org.bootcamp.ttn.entities.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +36,7 @@ public class UserDaoImpl implements IUserDao {
             user.setUserPassword(userRegisterDto.getUserPassword());
             Integer id = (Integer) session.save(user);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
@@ -83,11 +80,11 @@ public class UserDaoImpl implements IUserDao {
             return true;
     }
 
-    public User getUserDetails(String userName){
+    public User getUserDetails(String userName) {
         Session session = sessionFactory.getCurrentSession();
         @SuppressWarnings("JpaQlInspection") String hql = "FROM User WHERE userName = :userName";
         Query query = session.createQuery(hql);
         query.setParameter("userName", userName);
-        return (User)query.uniqueResult();
+        return (User) query.uniqueResult();
     }
 }

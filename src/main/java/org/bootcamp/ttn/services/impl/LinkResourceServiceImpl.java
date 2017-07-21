@@ -16,7 +16,7 @@ public class LinkResourceServiceImpl implements ILinkResourceService {
     ILinkResourceDao linkResourceDao;
 
     @Override
-    public Boolean addLinkResource(Topic topic, String linkName, String linkDescription,User user) {
-        return linkResourceDao.addLink(topic,linkName,linkDescription,user);
+    public Boolean addLinkResource(Topic topic, String linkName, String linkDescription, User user) {
+        return linkResourceDao.addLink(topic, linkName, linkDescription, user);
     }
 }
