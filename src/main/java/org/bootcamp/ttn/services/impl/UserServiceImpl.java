@@ -46,15 +46,19 @@ public class UserServiceImpl implements IUserSevice {
         return check;
     }
 
-    public UserSessionDto getUserDetails(String userName){
-        User user=userDao.getUserDetails(userName);
+    public UserSessionDto getUserDetails(String userName) {
+        User user = userDao.getUserDetails(userName);
         UserSessionDto userSessionDto = new UserSessionDto();
-        userSessionDto.setUserName(user.getUserName());
-        userSessionDto.setFirstName(user.getFirstName());
-        userSessionDto.setLastName(user.getLastName());
-        userSessionDto.setEmail(user.getEmail());
-        userSessionDto.setActive(user.getActive());
-        userSessionDto.setAdmin(user.getAdmin());
-        return userSessionDto;
+        if (user == null) {
+            return null;
+        } else {
+            userSessionDto.setUserName(user.getUserName());
+            userSessionDto.setFirstName(user.getFirstName());
+            userSessionDto.setLastName(user.getLastName());
+            userSessionDto.setEmail(user.getEmail());
+            userSessionDto.setActive(user.getActive());
+            userSessionDto.setAdmin(user.getAdmin());
+            return userSessionDto;
+        }
     }
 }

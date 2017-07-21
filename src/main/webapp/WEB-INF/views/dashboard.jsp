@@ -500,7 +500,7 @@
         $("#topicPopup").hide();
         $("#linkPopup").hide();
         $("#documentPopup").hide();
-        $("#topicSaveBtn").prop('disabled',true);
+        $("#topicSaveBtn").prop('disabled', true);
 
         $("#addTopic").on('click', function () {
             $("#topicPopup").show();
@@ -518,23 +518,34 @@
 
         $("#addDocument").on('click', function () {
             $("#documentPopup").show();
+//            $.ajax({
+//                    url: "/dasboard/populateLinkResource",
+//                    type: "GET",
+//                    success: function (res) {
+//
+//                    },
+//                    error: function (res) {
+//                        console.log(res);
+//                    }
+//                }
+//            );
         });
         $("#documentCancelBtn").on('click', function () {
             $("#documentPopup").hide();
         });
 
-        $("#topicSaveBtn").on('click',function () {
+        $("#topicSaveBtn").on('click', function () {
             alert("Hello")
             $.ajax({
                 url: "/dashboard/addTopic",
                 type: 'GET',
-                data: {topicName: $("#topicName").val(),visibility:$("#topicVisibility option:selected").val()},
+                data: {topicName: $("#topicName").val(), visibility: $("#topicVisibility option:selected").val()},
                 success: function (res) {
                     alert(res);
                     $("#topicName").val("");
                     $("#topicPopup").hide();
                 },
-                error:function (res) {
+                error: function (res) {
                     console.log(res);
                 }
             });
@@ -542,10 +553,10 @@
 
 
         $("#topicName").keyup(function () {
-            if ($(this).val()===""){
+            if ($(this).val() === "") {
                 $("#txtUserTopicError").css("color", "red").html("Topic should not be blank ");
                 $("#loginBtn").prop('disabled', true);
-            }else {
+            } else {
                 $.ajax({
                     url: "/dashboard/checkUniqueTopicName",
                     type: 'GET',
@@ -562,7 +573,7 @@
                         }
                         //alert(res);
                     },
-                    error:function (res) {
+                    error: function (res) {
                         console.log(res);
                     }
                 });

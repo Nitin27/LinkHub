@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 
 @Transactional
@@ -53,6 +55,7 @@ public class TopicDaoImpl implements ITopicDao {
         query.setParameter("userName",userName);
         query.setParameter("topicName",topicName);
         Object o=query.uniqueResult();
+        System.out.println(o);
         if (o==null)
             return false;
         else

@@ -1,7 +1,5 @@
 package org.bootcamp.ttn.controllers;
 
-import com.google.gson.Gson;
-import com.sun.org.apache.regexp.internal.RE;
 import org.bootcamp.ttn.dto.UserLoginDto;
 import org.bootcamp.ttn.dto.UserRegisterDto;
 import org.bootcamp.ttn.dto.UserSessionDto;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.io.Console;
 
 @Controller
 public class HomeController {
@@ -30,13 +27,18 @@ public class HomeController {
     ITopicService iTopicService;
 
     @RequestMapping(value = {"/home", "/"})
-    String fetchHomePage(Model model, HttpSession session) {
-        if (session.isNew()) {
+    ModelAndView fetchHomePage(Model model, HttpSession session, ModelAndView modelAndView, @ModelAttribute("errorLogin") String error) {
+        ModelAndView fetchViewModel;
+        if (session.isNew()||session.getAttribute("userName")==null) {
+            fetchViewModel = new ModelAndView("home");
+            if (!fetchViewModel.isEmpty()) {
+                fetchViewModel.addObject("errorLogin", error);
+            }
             model.addAttribute("userRegisterDto", new UserRegisterDto());
             model.addAttribute("userLoginDto", new UserLoginDto());
-            return "home";
         } else
-            return "redirect:/dashboard";
+            fetchViewModel = new ModelAndView("redirect:/dashboard");
+        return fetchViewModel;
     }
 
     @RequestMapping("/home/registerUser")
@@ -55,34 +57,35 @@ public class HomeController {
     }
 
     @RequestMapping("/home/userLogin")
-    ModelAndView loginUser(@ModelAttribute("userLoginDto") UserLoginDto userLoginDto, HttpSession session, BindingResult result, ModelMap model) {
+    String loginUser(@ModelAttribute("userLoginDto") UserLoginDto userLoginDto, HttpSession session, BindingResult result, ModelMap model) {
         UserSessionDto user = iUserSevice.validateUser(userLoginDto);
-        System.out.println(user.toString());
-        ModelAndView modelAndView;
         if (user == null) {
-            modelAndView = new ModelAndView("redirect:/home");
-            modelAndView.addObject("errorLogin", "Try again wrong password");
+            model.addAttribute("errorLogin", "Try again wrong password");
+            return "redirect:/home";
         } else {
             session.setAttribute("userName", user.getUserName());
-            modelAndView = new ModelAndView("redirect:/dashboard");
+            return "redirect:/dashboard";
         }
-        return modelAndView;
     }
 
     @RequestMapping("/dashboard")
     ModelAndView fetchController(Model model, HttpSession session) {
-        String userName = (String) session.getAttribute("userName");
-        UserSessionDto user = iUserSevice.getUserDetails(userName);
-        ModelAndView modelAndView = new ModelAndView("dashboard");
-        modelAndView.addObject("user", user);
+        ModelAndView modelAndView;
+        if (session.isNew()||session.getAttribute("userName")==null) {
+            modelAndView = new ModelAndView("redirect:/home");
+        } else {
+            String userName = (String) session.getAttribute("userName");
+            UserSessionDto user = iUserSevice.getUserDetails(userName);
+            modelAndView = new ModelAndView("dashboard");
+            modelAndView.addObject("user", user);
+        }
         return modelAndView;
     }
 
     @RequestMapping("/logoutToHome")
     ModelAndView logoutUser(HttpSession session) {
         session.invalidate();
-        ModelAndView modelAndView = new ModelAndView("redirect:/home");
-        return modelAndView;
+        return new ModelAndView("redirect:/home");
     }
 
 
