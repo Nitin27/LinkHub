@@ -5,14 +5,12 @@ import org.bootcamp.ttn.dto.UserLoginDto;
 import org.bootcamp.ttn.dto.UserRegisterDto;
 import org.bootcamp.ttn.dto.UserSessionDto;
 import org.bootcamp.ttn.entities.User;
-import org.bootcamp.ttn.services.IUserSevice;
+import org.bootcamp.ttn.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
-
 @Service
-public class UserServiceImpl implements IUserSevice {
+public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserDao userDao;
 
@@ -60,5 +58,11 @@ public class UserServiceImpl implements IUserSevice {
             userSessionDto.setAdmin(user.getAdmin());
             return userSessionDto;
         }
+    }
+
+    @Override
+    public User getUserId(String userName) {
+        User user=userDao.getUserDetails(userName);
+        return user;
     }
 }

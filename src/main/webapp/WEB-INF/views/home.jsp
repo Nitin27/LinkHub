@@ -363,7 +363,7 @@
         $("#loginBtn").prop('disabled', true);
         $("#registerBtn").prop('disabled', true);
         //Event for unique login username
-        $("input[id='txtUserName']").keyup(function () {
+        $("input[id='txtUserName']").on('keyup change focusout blur',function () {
             $.ajax({
                 url: "/home/checkLoginUserName",
                 type: 'GET',
@@ -399,7 +399,7 @@
                 $("#registerBtn").prop('disabled', true);
         }
 
-        $("input[id='userName']").keyup(function () {
+        $("input[id='userName']").on('keyup change focusout blur',function () {
             if ($(this).val() === "")
                 $("#userNameRegisterError").css("color", "red").html("Cannot be left blank");
             else {
@@ -422,7 +422,7 @@
             }
         });
 
-        $("input[id='userMail']").keyup(function () {
+        $("input[id='userMail']").on('keyup change focusout blur',function () {
             $.ajax({
                 url: "/home/checkRegisterUserMail",
                 type: 'GET',

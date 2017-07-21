@@ -365,7 +365,6 @@
                                 <div class="col-md-8 col-lg-8">
                                     <input type="text" style="width:100%" id="linkName"
                                            required="required"/>
-                                    <div id="txtUserLinkError"></div>
                                 </div>
                             </div>
 
@@ -397,7 +396,7 @@
                                 </div>
                                 <div class="col-md-4 col-lg-4"
                                      style="text-align: center; text-decoration: underline">
-                                    <button id=linkSaveBtn" type="button"
+                                    <button id="linkSaveBtn" type="button"
                                             style="width:100%;border-radius: 7px; border:1px solid black">
                                         SHARE
                                     </button>
@@ -511,31 +510,50 @@
 
         $("#addLink").on('click', function () {
             $("#linkPopup").show();
-        });
+            $.ajax({
+                    url: "/dashboard/populateLinkResource",
+                    type: "GET",
+                    success: function (res) {
+                        for (topic in res) {
+                            optionHTML = "<option value='" + res[topic].topicId + "'>" + res[topic].topicName + "</option>"
+                            $("#subscribedTopicsForLink").append(optionHTML)
+                        }
+                    },
+                    error: function (res) {
+                        console.log(res.getTopicName);
+                    }
+                }
+            );
+        })
+        ;
         $("#linkCancelBtn").on('click', function () {
             $("#linkPopup").hide();
+            $("#subscribedTopicsForLink").html("");
         });
 
         $("#addDocument").on('click', function () {
             $("#documentPopup").show();
-//            $.ajax({
-//                    url: "/dasboard/populateLinkResource",
-//                    type: "GET",
-//                    success: function (res) {
-//
-//                    },
-//                    error: function (res) {
-//                        console.log(res);
-//                    }
-//                }
-//            );
+            $.ajax({
+                    url: "/dashboard/populateLinkResource",
+                    type: "GET",
+                    success: function (res) {
+                        for (topic in res) {
+                            optionHTML = "<option value='" + res[topic].topicId + "'>" + res[topic].topicName + "</option>"
+                            $("#subscribedTopicsForDocument").append(optionHTML)
+                        }
+                    },
+                    error: function (res) {
+                        console.log(res.getTopicName);
+                    }
+                }
+            );
         });
         $("#documentCancelBtn").on('click', function () {
             $("#documentPopup").hide();
+            $("#subscribedTopicsForDocument").html("");
         });
 
         $("#topicSaveBtn").on('click', function () {
-            alert("Hello")
             $.ajax({
                 url: "/dashboard/addTopic",
                 type: 'GET',
@@ -551,8 +569,26 @@
             });
         });
 
+        $("#linkSaveBtn").on('click', function () {
+            $.ajax({
+                url: "/dashboard/addLink",
+                type: 'GET',
+                data: {linkName: $("#linkName").val(),linkDescription : $("#linkDescription").val(), topic: $("#subscribedTopicsForLink option:selected").val()},
+                success: function (res) {
+                    alert(res);
+                    $("#linkName").val("");
+                    $("#linkDescription").val("");
+                    $("#linkPopup").hide();
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+            });
+        });
 
-        $("#topicName").keyup(function () {
+
+
+        $("#topicName").on('keyup change focusout blur', function () {
             if ($(this).val() === "") {
                 $("#txtUserTopicError").css("color", "red").html("Topic should not be blank ");
                 $("#loginBtn").prop('disabled', true);
@@ -563,15 +599,13 @@
                     data: {"topicName": $("#topicName").val()},
                     quietMillis: 2000,
                     success: function (res) {
-                        //                    data=res.toString();
                         if (res === "false") {
                             $("#txtUserTopicError").css("color", "green").html("Proceed forward");
                             $("#topicSaveBtn").prop('disabled', false);
                         } else {
                             $("#txtUserTopicError").css("color", "red").html("This topic is already created by you. ");
-                            $("#loginBtn").prop('disabled', true);
+                            $("#topicSaveBtn").prop('disabled', true);
                         }
-                        //alert(res);
                     },
                     error: function (res) {
                         console.log(res);
@@ -580,7 +614,8 @@
             }
         });
 
-    });
+    })
+    ;
 </script>
 </body>
 </html>

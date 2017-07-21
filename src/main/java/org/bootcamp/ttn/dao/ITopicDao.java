@@ -1,5 +1,6 @@
 package org.bootcamp.ttn.dao;
 
+import org.bootcamp.ttn.entities.Topic;
 import org.bootcamp.ttn.enums.Visibility;
 
 /**
@@ -8,4 +9,5 @@ import org.bootcamp.ttn.enums.Visibility;
 public interface ITopicDao {
     Integer addTopic(String topicName, Visibility topicVisibility,String userName);
     Boolean checkUniqueTopicName(String topicName,String userName);
+    Topic getTopicDetails(Integer id);
 }

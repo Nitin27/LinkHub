@@ -1,6 +1,7 @@
 package org.bootcamp.ttn.services.impl;
 
 import org.bootcamp.ttn.dao.ITopicDao;
+import org.bootcamp.ttn.entities.Topic;
 import org.bootcamp.ttn.enums.Visibility;
 import org.bootcamp.ttn.services.ISubscriptionService;
 import org.bootcamp.ttn.services.ITopicService;
@@ -39,5 +40,12 @@ public class TopicServiceImpl implements ITopicService {
     @Override
     public Boolean isTopicNamePresent(String topicName, String userName) {
         return topicDao.checkUniqueTopicName(topicName,userName);
+    }
+
+
+    @Override
+    public Topic getTopicDetails(Integer topicId) {
+        Topic topic = topicDao.getTopicDetails(topicId);
+        return topic;
     }
 }

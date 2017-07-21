@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Nitin Jain on 7/20/2017.
@@ -44,5 +47,22 @@ public class SubscriptionDaoImpl implements ISubscriptionDao{
         topic.getSubscriptions().add(subscription);
         session.save(subscription);
         session.saveOrUpdate(topic);
+    }
+
+    @Override
+    public List<Topic> fetchSubscribedTopic(User user) {
+        Session session=sessionFactory.getCurrentSession();
+        @SuppressWarnings("JpaQlInspection") String hql="FROM Subscription s WHERE s.user = :user";
+        Query query=session.createQuery(hql);
+        query.setParameter("user",user);
+        List list=query.list();
+        List<Topic> topicList=new ArrayList<Topic>();
+        Iterator i=list.iterator();
+        Subscription s;
+        while(i.hasNext()){
+            s=(Subscription)i.next();
+            topicList.add(s.getTopic());
+        }
+        return list;
     }
 }

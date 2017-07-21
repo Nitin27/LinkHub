@@ -61,4 +61,12 @@ public class TopicDaoImpl implements ITopicDao {
         else
             return true;
     }
+
+
+    @Override
+    public Topic getTopicDetails(Integer id) {
+        Session session=sessionFactory.getCurrentSession();
+        Topic topic=(Topic)session.get(Topic.class,id);
+        return topic;
+    }
 }

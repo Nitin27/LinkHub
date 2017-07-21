@@ -1,10 +1,11 @@
 package org.bootcamp.ttn.controllers;
 
+import com.google.gson.Gson;
 import org.bootcamp.ttn.dto.UserLoginDto;
 import org.bootcamp.ttn.dto.UserRegisterDto;
 import org.bootcamp.ttn.dto.UserSessionDto;
-import org.bootcamp.ttn.services.ITopicService;
-import org.bootcamp.ttn.services.IUserSevice;
+import org.bootcamp.ttn.dto.UserSubscribedTopicDto;
+import org.bootcamp.ttn.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,14 +18,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class HomeController {
 
     @Autowired
-    IUserSevice iUserSevice;
+    IUserService iUserSevice;
     @Autowired
     ITopicService iTopicService;
+    @Autowired
+    ISubscriptionService iSubscriptionService;
+    @Autowired
+    IResourceService iResourceService;
+    @Autowired
+    ILinkResourceService iLinkResourceService;
+    @Autowired
+    IDocumentResourceService iDocumentResourceService;
 
     @RequestMapping(value = {"/home", "/"})
     ModelAndView fetchHomePage(Model model, HttpSession session, ModelAndView modelAndView, @ModelAttribute("errorLogin") String error) {
@@ -97,6 +107,14 @@ public class HomeController {
         else
             return "TOPIC ADDITION FAILED TRY SOMETHING ELSE";
     }
+    @RequestMapping("/dashboard/addLink")
+    @ResponseBody
+    String saveUserLink(@RequestParam("linkName") String linkName,@RequestParam("linkDescription")String linkDescription ,@RequestParam("topic") Integer topicId, HttpSession session){
+        if (iResourceService.addLink(linkName,linkDescription,topicId,(String)session.getAttribute("userName")))
+            return "LINK SHARED FOR YOUR SUBSCRIBED TOPIC";
+        else
+            return "UNABLE TO SHARE LINK TRY SOMETHING ELSE";
+    }
 
     @RequestMapping("/dashboard/checkUniqueTopicName")
     @ResponseBody
@@ -106,6 +124,16 @@ public class HomeController {
     }
 
 //  AJAX CONTROLLERS
+
+    @RequestMapping("/dashboard/populateLinkResource")
+    @ResponseBody
+    List<UserSubscribedTopicDto> populateLinkedResourceForSubscription(HttpSession session){
+        String userName=(String)session.getAttribute("userName");
+        List<UserSubscribedTopicDto> list= iSubscriptionService.fetchUserSubscribedTopic(userName);
+        return list;
+    }
+
+
 
     @RequestMapping("/home/checkLoginUserName")
     @ResponseBody
