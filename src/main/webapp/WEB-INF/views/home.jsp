@@ -97,12 +97,12 @@
                                         <i class="fa fa-google-plus" style="color:red"></i>
                                     </div>
                                     <div class="col-md-2" style="text-decoration: underline">
-                                        <button id="${recentShare.linkId}">View Post</button>
+                                        <a target="_blank" href="${recentShare.linkId}">View Link</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        <hr>
                     </c:forEach>
                 </div>
             </div>
@@ -196,7 +196,7 @@
                                         <form:label path="txtPassword">Password*</form:label>
                                     </div>
                                     <div class="col-md-8 col-lg-8">
-                                        <form:input type="text" style="width:100%" path="txtPassword"
+                                        <form:input type="password" style="width:100%" path="txtPassword"
                                                     required="required"/>
                                     </div>
                                 </div>
