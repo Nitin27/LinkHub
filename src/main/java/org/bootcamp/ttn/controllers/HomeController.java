@@ -1,5 +1,6 @@
 package org.bootcamp.ttn.controllers;
 
+import org.bootcamp.ttn.dto.RecentSharesDto;
 import org.bootcamp.ttn.dto.UserLoginDto;
 import org.bootcamp.ttn.dto.UserRegisterDto;
 import org.bootcamp.ttn.dto.UserSessionDto;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -41,6 +43,8 @@ public class HomeController {
             if (!fetchViewModel.isEmpty()) {
                 fetchViewModel.addObject("errorLogin", error);
             }
+            List<RecentSharesDto> recentSharesDto=iResourceService.getRecentShare();
+            fetchViewModel.addObject("recentShares",recentSharesDto);
             model.addAttribute("userRegisterDto", new UserRegisterDto());
             model.addAttribute("userLoginDto", new UserLoginDto());
         } else

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
     <title>Link Hub - A link sharing portal</title>
@@ -65,78 +66,44 @@
                             <strong>Recent shares</strong>
                         </div>
                     </div>
-                    <div class="row" style="padding:0; margin:14px 0px;">
-                        <div class="col-md-2" style="padding:0; padding-left:10px">
-                            <i class="glyphicon glyphicon-user"
-                               style="display:inline-block;border:1px solid black;font-size:110px;"></i>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    Uday Pratap Singh
-                                </div>
-                                <div class="col-md-7" style="color:gray;font-size:12px;padding: 2px;">
-                                    @uday 5min
-                                </div>
-                                <div class="col-md-2">
-                                    <a href="#">Grails</a>
-                                </div>
+                    <c:forEach items="${recentShares}" var="recentShare">
+
+                        <div class="row" style="padding:0; margin:14px 0px;">
+                            <div class="col-md-2" style="padding:0; padding-left:10px">
+                                <i class="glyphicon glyphicon-user"
+                                   style="display:inline-block;border:1px solid black;font-size:110px;"></i>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        ${recentShare.firstName}&nbsp;${recentShare.lastName}
+                                    </div>
+                                    <div class="col-md-7" style="color:gray;font-size:12px;padding: 2px;">
+                                        @${recentShare.userName}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="#">${recentShare.topicName}</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10 " style="font-size:16px;">
-                                    <i class="fa fa-facebook-square" style="color:blue"></i>
-                                    <i class="fa fa-twitter" style="color:#00aced"></i>
-                                    <i class="fa fa-google-plus" style="color:red"></i>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        ${recentShare.linkDescription}
+                                    </div>
                                 </div>
-                                <div class="col-md-2" style="text-decoration: underline">
-                                    <a href="#">View Post</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="padding:0; margin:4px 0px;">
-                        <div class="col-md-2" style="padding:0; padding-left:10px">
-                            <i class="glyphicon glyphicon-user"
-                               style="display:inline-block;border:1px solid black;font-size:110px;"></i>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    Uday Pratap Singh
-                                </div>
-                                <div class="col-md-7" style="color:gray;font-size:12px;padding: 2px;">
-                                    @uday 5min
-                                </div>
-                                <div class="col-md-2">
-                                    <a href="#">Grails</a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10" style="font-size:16px;">
-                                    <i class="fa fa-facebook-square" style="color:blue"></i>
-                                    <i class="fa fa-twitter" style="color:#00aced"></i>
-                                    <i class="fa fa-google-plus" style="color:red"></i>
-                                </div>
-                                <div class="col-md-2" style="text-decoration: underline">
-                                    <a href="#">View Post</a>
+                                <div class="row">
+                                    <div class="col-md-10 " style="font-size:16px;">
+                                        <i class="fa fa-facebook-square" style="color:blue"></i>
+                                        <i class="fa fa-twitter" style="color:#00aced"></i>
+                                        <i class="fa fa-google-plus" style="color:red"></i>
+                                    </div>
+                                    <div class="col-md-2" style="text-decoration: underline">
+                                        <button id="${recentShare.linkId}">View Post</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                    </c:forEach>
                 </div>
             </div>
             <div class="row" style="padding:10px">
@@ -360,9 +327,29 @@
 </div>
 <script>
     $(document).ready(function () {
+
+
+
+        $.ajax({
+                url: "/home/populateRecentPosts",
+                type: "GET",
+                success: function (res) {
+                    for (topic in res) {
+                        optionHTML = ""
+                        $("#subscribedTopicsForDocument").append(optionHTML)
+                    }
+                },
+                error: function (res) {
+                    console.log(res.getTopicName);
+                }
+            }
+        );
+
+
+
+
         $("#loginBtn").prop('disabled', true);
         $("#registerBtn").prop('disabled', true);
-        //Event for unique login username
         $("input[id='txtUserName']").on('keyup change focusout blur',function () {
             $.ajax({
                 url: "/home/checkLoginUserName",
@@ -370,7 +357,6 @@
                 data: {"userName": $("input[id='txtUserName']").val()},
                 quietMillis: 2000,
                 success: function (res) {
-//                    data=res.toString();
                     if (res === "true") {
                         $("#txtUserNameError").css("color", "green").html("Proceed forward");
                         $("#loginBtn").prop('disabled', false);
@@ -378,7 +364,6 @@
                         $("#txtUserNameError").css("color", "red").html("Incorrect username/email");
                         $("#loginBtn").prop('disabled', true);
                     }
-                    //alert(res);
                 }
             });
         });
